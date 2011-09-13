@@ -55,7 +55,7 @@ function mp3_admin() {
       them as posts.  It takes the ID3v2 title and comment and sets it as the 
       post title and content respectively.  It also takes the file and attaches 
       it to the post and adds a link to the post content.'); ?></p>
-    <p><?php _e('The way the ID3 information is processed, the file needs to have the title and comment set in v1 and v2'); ?></p>
+    <p><?php _e('The way the ID3 information is processed, <strong>the file needs to have the title and comment set in v1 and v2</strong>'); ?></p>
     <?php create_folder($mp3ToPostOptions['folder_path']); ?>
     <p><?php _e('Upload your files here:'); ?>
       <?php echo $mp3ToPostOptions['base_url_path'] . '/' . 
@@ -84,9 +84,11 @@ function mp3_admin() {
       <?php
       // get files
       $mp3Files = mp3_array($mp3ToPostOptions['folder_path']);
-      // list files
+      // list files and details
       foreach ($mp3Files as $file) {
-        echo '<li>' . $file . '</li>';
+        $filePath = $mp3ToPostOptions['folder_path'].'/'.$file;
+        $id3Details = get_ID3($filePath);
+        echo '<li><strong>' . $file . '</strong><ul><li><strong>Title:</strong> '.$id3Details['title'].'</li><li><strong>Comments:</strong> '.$id3Details['comment'].'</li></ul></li>';
       }
       ?>
     </ol>
@@ -299,5 +301,36 @@ function mp3_array($folderPath){
   
   return $mp3Files;
 }
+
+
+/**
+ * Gets the ID3 info of a file
+ * 
+ * @param $filePath
+ * String, base path to the mp3 file
+ * 
+ * @return array
+ * Keyed array with title and comment as keys.  
+ */
+function get_ID3($filePath) {
+   // Initialize getID3 engine
+  $get_ID3 = new getID3;
+  $ThisFileInfo = $get_ID3->analyze($filePath);
+
+  /**
+   * Optional: copies data from all subarrays of [tags] into [comments] so
+   * metadata is all available in one location for all tag formats
+   * metainformation is always available under [tags] even if this is not called 
+   */
+  getid3_lib::CopyTagsToComments($ThisFileInfo);
+  $title = $ThisFileInfo['tags']['id3v2']['title'][0];
+  $comment = $ThisFileInfo['tags']['id3v2']['comments'][0];
     
+  $details = array(
+    'title' => $title,
+    'comment' => $comment,
+  );
+  
+  return $details;
+}
 ?>
