@@ -1,10 +1,10 @@
 <?php
 /*
   Plugin Name: MP3 to Post
-  Plugin URI: http://www.fractured-state.com
+  Plugin URI: http://www.fractured-state.com/2011/09/mp3-to-post-plugin/
   Description: Creates posts using ID3 information in MP3 files.
   Author: Paul Sheldrake
-  Version: 1.0
+  Version: 1.0.2
   Author URI: http://www.fractured-state.com
  */
 
@@ -42,13 +42,13 @@ add_action('admin_menu', 'mp3_admin_actions');
 /**
  * Creates the admin page for the plugin
  * 
- * @param $folderPath
  */
 function mp3_admin() {
   ?>
   <div class="wrap">
     <h2>MP3 to Post</h2>
     <?php
+			// load our variables in to an array
       $mp3ToPostOptions = unserialize(get_option('mp3-to-post'));
     ?>
     <p><?php _e('This plugin will scan for MP3 files in the directory below and then add 
@@ -79,7 +79,7 @@ function mp3_admin() {
       // end POST check
     ?>
     <hr />
-    <h3>Files listed in the order they will be added</h3>
+    <h3><?php _e('Files listed in the order they will be added'); ?></h3>
     <ol>
       <?php
       // get files
@@ -260,7 +260,7 @@ function mp3_to_post($limit = 'all', $folderPath) {
         array_push($messages, 'Post already exists: ' . $title);
       }
     } else {
-      array_push($messages, 'No ID3v2 information set');
+      array_push($messages, 'Either the title or comments are not set in the ID3 information.   Make sure they are both set for v1 and v2.');
     }
     $i++;
   endwhile; //
