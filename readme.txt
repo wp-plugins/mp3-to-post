@@ -3,7 +3,7 @@ Contributors: paulsheldrake
 Tags: mp3, podcasting
 Requires at least: 3.0
 Tested up to: 3.2.1
-Stable tag: 1.0.2
+Stable tag: 1.0.3.2
 
 Creates posts using MP3 ID3 information.
 
@@ -42,7 +42,7 @@ Please feel free to email me.  paul.sheldrake@gmail.com
 
 == Changelog ==
 
-= 1.0.3.1 =
+= 1.0.3.2 =
 * Fixed version number
 
 = 1.0.3 =
