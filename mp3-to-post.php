@@ -8,11 +8,6 @@
   Author URI: http://www.fractured-state.com
  */
 
-/**
- * Add the ID3 library
- */
-require_once('getid3/getid3.php');
-
 
 /**
  * Variables, store them in the options array to grab as necessary
@@ -44,6 +39,12 @@ add_action('admin_menu', 'mp3_admin_actions');
  * 
  */
 function mp3_admin() {
+  /**
+   * Add the ID3 library.  Adding it here so it's only used as needed
+   * http://wordpress.org/support/topic/plugin-blubrry-powerpress-podcasting-plugin-conflict-with-mp3-to-post-plugin?replies=1#post-2833002
+   */
+  require_once('getid3/getid3.php');
+  
   ?>
   <div class="wrap">
     <h2>MP3 to Post</h2>
