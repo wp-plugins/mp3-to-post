@@ -4,7 +4,7 @@
   Plugin URI: http://www.fractured-state.com/2011/09/mp3-to-post-plugin/
   Description: Creates posts using ID3 information in MP3 files.
   Author: Paul Sheldrake
-  Version: 1.0.2
+  Version: 1.0.3.1
   Author URI: http://www.fractured-state.com
  */
 

@@ -42,6 +42,9 @@ Please feel free to email me.  paul.sheldrake@gmail.com
 
 == Changelog ==
 
+= 1.0.3.1 =
+* Fixed version number
+
 = 1.0.3 =
 * Added a fix to make the mp3-to-post work with other plugins that use the GetID3 library.  Thanks to citizenkeith for following up on this.
 
