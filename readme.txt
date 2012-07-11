@@ -1,9 +1,10 @@
 === MP3 to Post ===
 Contributors: paulsheldrake
-Tags: mp3, podcasting
+Tags: mp3, podcasting, id3, podcast, podcaster, audio, music, spokenword
 Requires at least: 3.0
-Tested up to: 3.2.1
-Stable tag: 1.0.3.2
+Tested up to: 3.4.1
+Stable tag: 1.1.0
+License: GPLv3
 
 Creates posts using MP3 ID3 information.
 
@@ -24,7 +25,7 @@ the information and set publish dates.
 1. Upload the plugin directory to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Upload mp3 files to /wp-content/uploads/mp3-to-post
-4. Go to the plugin page and start creating posts.
+4. Go to the plugin page(under the Settings tab) and start creating posts.
 
 == Frequently Asked Questions ==
 
@@ -41,6 +42,9 @@ In Windows you can also right click the mp3 file and select Properties.  In the 
 Please feel free to email me.  paul.sheldrake@gmail.com
 
 == Changelog ==
+
+= 1.1.0 =
+* Added the ability to set categories on posts.  When you set the genre in the ID3 info that will be used as the category.
 
 = 1.0.3.2 =
 * Fixed version number
