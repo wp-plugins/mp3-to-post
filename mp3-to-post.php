@@ -4,7 +4,7 @@
   Plugin URI: http://www.fractured-state.com/2011/09/mp3-to-post-plugin/
   Description: Creates posts using ID3 information in MP3 files.
   Author: Paul Sheldrake
-  Version: 1.0.3.2
+  Version: 1.1.0
   Author URI: http://www.fractured-state.com
  */
 
@@ -57,6 +57,7 @@ function mp3_admin() {
       post title and content respectively.  It also takes the file and attaches 
       it to the post and adds a link to the post content.'); ?></p>
     <p><?php _e('The way the ID3 information is processed, <strong>the file needs to have the title and comment set in v1 and v2</strong>'); ?></p>
+    <p><?php _e('If the genre is set on the file, that will be turned in to the category. If more than one genre is set in the ID3 information MP3 to Post only takes the first one.  If the genre is not set the category on the post is set to the default option.'); ?></p>
     <?php create_folder($mp3ToPostOptions['folder_path']); ?>
     <p><?php _e('Upload your files here:'); ?>
       <?php echo $mp3ToPostOptions['base_url_path'] . '/' . 
@@ -89,7 +90,14 @@ function mp3_admin() {
       foreach ($mp3Files as $file) {
         $filePath = $mp3ToPostOptions['folder_path'].'/'.$file;
         $id3Details = get_ID3($filePath);
-        echo '<li><strong>' . $file . '</strong><ul><li><strong>Title:</strong> '.$id3Details['title'].'</li><li><strong>Comments:</strong> '.$id3Details['comment'].'</li></ul></li>';
+        echo '<li>
+          <strong>' . $file . '</strong>
+            <ul>
+              <li><strong>Title:</strong> '.$id3Details['title'].'</li>
+              <li><strong>Category:</strong> '.$id3Details['category'].'</li>
+              <li><strong>Comments:</strong> '.$id3Details['comment'].'</li>
+            </ul>
+        </li>';
       }
       ?>
     </ol>
@@ -133,23 +141,6 @@ function mp3_only($filename) {
     return FALSE;
   }
 }
-
-/**
- * Adds weekly and fortnightly to the cron options.
- * 
- * @return $array
- *   Returns a keyed array to be use with the filter cron_schedules
- */
-function more_reccurences() {
-  return array(
-    'weekly' => array('interval' => 604800, 'display' => 'Once Weekly'),
-    'fortnightly' => array('interval' => 1209600, 'display' => 'Once Fortnightly'),
-  );
-}
-/**
- * Add more options to the cron schedule
- */
-add_filter('cron_schedules', 'more_reccurences');
 
 /**
  * Creates a post from an mp3 file.
@@ -198,10 +189,7 @@ function mp3_to_post($limit = 'all', $folderPath) {
      */
     getid3_lib::CopyTagsToComments($ThisFileInfo);
     $title = $ThisFileInfo['tags']['id3v2']['title'][0];
-    /*
-      not used at the momonent
-      $album = $ThisFileInfo['tags']['id3v2']['album'][0];
-      $artist = $ThisFileInfo['tags']['id3v2']['artist'][0]; */
+    $category = $ThisFileInfo['tags']['id3v2']['genre'][0];
     $comment = $ThisFileInfo['tags']['id3v2']['comments'][0];
 
     // check if we have a title and a comment
@@ -214,16 +202,33 @@ function mp3_to_post($limit = 'all', $folderPath) {
       $titleSearchResult = new WP_Query($searchArgs);
 
       // If there are no posts with the title of the mp3 then make the post
-      if ($titleSearchResult->post_count == 0) {
+      if ($titleSearchResult->post_count == 0) {    
         // create basic post with info from ID3 details
         $my_post = array(
-        'post_title' => $title,
-         'post_content' => $comment,
-         'post_author' => 1,
-         'post_name' => $title,
+          'post_title' => $title,
+          'post_content' => $comment,
+          'post_author' => 1,
+          'post_name' => $title,
         );
-
+        // Insert the post!!
         $postID = wp_insert_post($my_post);
+        
+        // If the category/genre is set then update the post
+        if(!empty($category)){      
+          $category_ID = get_cat_ID($category);
+          // if a category exists 
+          if($category_ID) {
+            $categories_array = array($category_ID);
+            wp_set_post_categories($postID, $categories_array);
+          } 
+          // if it doesn't exist then create a new category
+          else {
+            $new_category_ID = wp_create_category($category);
+            $categories_array = array($new_category_ID);
+            wp_set_post_categories($postID, $categories_array);
+          }
+        }
+        
         // move the file to the right month/date directory in wordpress
         $wpFileInfo = wp_upload_bits(basename($filePath), null, file_get_contents($filePath));
         // if moved correctly delete the original
@@ -311,7 +316,7 @@ function mp3_array($folderPath){
  * String, base path to the mp3 file
  * 
  * @return array
- * Keyed array with title and comment as keys.  
+ * Keyed array with title, comment and category as keys.  
  */
 function get_ID3($filePath) {
    // Initialize getID3 engine
@@ -326,10 +331,12 @@ function get_ID3($filePath) {
   getid3_lib::CopyTagsToComments($ThisFileInfo);
   $title = $ThisFileInfo['tags']['id3v2']['title'][0];
   $comment = $ThisFileInfo['tags']['id3v2']['comments'][0];
-    
+  $category = $ThisFileInfo['tags']['id3v2']['genre'][0];  
+  
   $details = array(
     'title' => $title,
     'comment' => $comment,
+    'category' => $category,
   );
   
   return $details;
