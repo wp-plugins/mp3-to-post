@@ -28,7 +28,7 @@ update_option('mp3-to-post', serialize($mp3ToPostOptions));
 
 /* create the menu item and link to to an admin function */
 function mp3_admin_actions() {
-  add_options_page(_e('MP3 to Post','mp3-to-post'), _e('MP3 to Post','mp3-to-post'), 1, "mp3-to-post", "mp3_admin");
+  add_options_page(__('MP3 to Post','mp3-to-post'), __('MP3 to Post','mp3-to-post'), 1, "mp3-to-post", "mp3_admin");
 }
 
 /* add the menu item */
