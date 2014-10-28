@@ -2,8 +2,8 @@
 Contributors: paulsheldrake
 Tags: mp3, podcasting, id3, podcast, podcaster, audio, music, spokenword
 Requires at least: 3.0
-Tested up to: 3.4.1
-Stable tag: 1.1.0
+Tested up to: 4.0
+Stable tag: 1.2.0
 License: GPLv3
 
 Creates posts using MP3 ID3 information.
@@ -42,6 +42,9 @@ In Windows you can also right click the mp3 file and select Properties.  In the 
 Please feel free to email me.  paul.sheldrake@gmail.com
 
 == Changelog ==
+
+= 1.2.0 =
+* Check plugin works for WordPress version 4.0.  Creating POT file for translators.
 
 = 1.1.0 =
 * Added the ability to set categories on posts.  When you set the genre in the ID3 info that will be used as the category.
