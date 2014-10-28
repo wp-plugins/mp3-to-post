@@ -3,7 +3,7 @@ Contributors: paulsheldrake
 Tags: mp3, podcasting, id3, podcast, podcaster, audio, music, spokenword
 Requires at least: 3.0
 Tested up to: 4.0
-Stable tag: 1.2.0
+Stable tag: 1.2.3
 License: GPLv3
 
 Creates posts using MP3 ID3 information.
