@@ -43,6 +43,9 @@ Please feel free to email me.  paul.sheldrake@gmail.com
 
 == Changelog ==
 
+= 1.2.1 =
+* Fixed version number.
+
 = 1.2.0 =
 * Check plugin works for WordPress version 4.0.  Creating POT file for translators.
 
