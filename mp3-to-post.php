@@ -52,10 +52,7 @@ function mp3_admin() {
     // load our variables in to an array
     $mp3ToPostOptions = unserialize(get_option('mp3-to-post'));
     ?>
-    <p><?php _e('This plugin will scan for MP3 files in the directory below and then add 
-      them as posts.  It takes the ID3v2 title and comment and sets it as the 
-      post title and content respectively.  It also takes the file and attaches 
-      it to the post and adds a link to the post content.','mp3-to-post'); ?></p>
+    <p><?php _e('This plugin will scan for MP3 files in the directory below and then add them as posts.  It takes the ID3v2 title and comment and sets it as the post title and content respectively.  It also takes the file and attaches it to the post and adds a link to the post content.','mp3-to-post'); ?></p>
     <p><?php _e('The way the ID3 information is processed, <strong>the file needs to have the title and comment set in v1 and v2</strong>','mp3-to-post'); ?></p>
     <p><?php _e('If the genre is set on the file, that will be turned in to the category. If more than one genre is set in the ID3 information MP3 to Post only takes the first one.  If the genre is not set the category on the post is set to the default option.','mp3-to-post'); ?></p>
     <?php create_folder($mp3ToPostOptions['folder_path']); ?>
