@@ -88,6 +88,10 @@ msgid ""
 "they are both set for v1 and v2."
 msgstr ""
 
+#: mp3-to-post.php:70
+msgid "Publish post(s) automatically (leave unchecked to set post(s) to draft)"
+msgstr ""
+
 #. Plugin URI of the plugin/theme
 msgid "http://www.fractured-state.com/2011/09/mp3-to-post-plugin/"
 msgstr ""
