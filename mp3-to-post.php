@@ -60,8 +60,26 @@ function mp3_admin() {
       <?php echo $mp3ToPostOptions['base_url_path'] . '/' .
         $mp3ToPostOptions['folder_name']; ?> </p>
     <form method="post" action="">
-      <input type="submit" class="button-primary" name="create-all-posts" value="<?php _e('Create All Posts','mp3-to-post') ?>" />
-      <input type="submit" class="button-primary" name="create-first-post" value="<?php _e('Create 1st Post','mp3-to-post') ?>" />
+      <table class="form-table">
+        <tbody>
+        <tr>
+          <th scope="row">Settings</th>
+          <td>
+            <label>
+              <input type="checkbox"  name="publish-automatically" value="1" />
+              <?php _e('Publish post(s) automatically (leave unchecked to set post(s) to draft)','mp3-to-post') ?>
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row"></th>
+          <td>
+            <input type="submit" class="button-primary" name="create-all-posts" value="<?php _e('Create All Posts','mp3-to-post') ?>" />
+            <input type="submit" class="button-primary" name="create-first-post" value="<?php _e('Create 1st Post','mp3-to-post') ?>" />
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </form>
     <?php
     // create some posts already!
@@ -90,9 +108,9 @@ function mp3_admin() {
         echo '<li>
           <strong>' . $file . '</strong>
             <ul>
-              <li><strong>' . _e('Title:', 'mp3-to-post') . '</strong> '.$id3Details['title'].'</li>
-              <li><strong>' . _e('Category:', 'mp3-to-post') . '</strong> '.$id3Details['category'].'</li>
-              <li><strong>' . _e('Comment:', 'mp3-to-post') . '</strong> '.$id3Details['comment'].'</li>
+              <li><strong>' . __('Title:', 'mp3-to-post') . '</strong> '.$id3Details['title'].'</li>
+              <li><strong>' . __('Category:', 'mp3-to-post') . '</strong> '.$id3Details['category'].'</li>
+              <li><strong>' . __('Comment:', 'mp3-to-post') . '</strong> '.$id3Details['comment'].'</li>
             </ul>
         </li>';
       }
@@ -255,7 +273,11 @@ function mp3_to_post($limit = 'all', $folderPath) {
         $updated_post = array();
         $updated_post['ID'] = $postID;
         $updated_post['post_content'] = $updatePost->post_content . '<p>' . $attachmentLink . '</p>';
+        if($_POST['publish-automatically']){
+          $updated_post['post_status'] = 'publish';
+        }
         wp_update_post($updated_post);
+
 
         // 
         array_push($messages, _e('Post created:', 'mp3-to-post') . ' ' . $title);
